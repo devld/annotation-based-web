@@ -2,8 +2,6 @@ package ld.common.response;
 
 import ld.common.context.Context;
 
-import java.io.IOException;
-
 public class ResponseWriterImpl implements ResponseWriter {
 
     @Override
