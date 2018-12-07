@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ContextImpl implements Context {
 
-    private HttpServletRequest request;
-    private HttpServletResponse response;
-    private ServletContext context;
-    private Route route;
-
-    private Model model;
+    private final HttpServletRequest request;
+    private final HttpServletResponse response;
+    private final ServletContext context;
+    private final Route route;
+    private final Model model;
+    private final String requestUri;
 
     public ContextImpl(HttpServletRequest request, HttpServletResponse response, ServletContext context, Route route) {
         this.request = request;
@@ -23,6 +23,7 @@ public class ContextImpl implements Context {
         this.context = context;
         this.route = route;
         this.model = new ModelImpl();
+        this.requestUri = getHttpServletRequest().getRequestURI().substring(getServletContext().getContextPath().length());
     }
 
     @Override
@@ -48,5 +49,10 @@ public class ContextImpl implements Context {
     @Override
     public ServletContext getServletContext() {
         return context;
+    }
+
+    @Override
+    public String getRequestUri() {
+        return requestUri;
     }
 }

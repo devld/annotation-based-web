@@ -63,4 +63,29 @@ public class Utils {
         return md5(salt + password + salt);
     }
 
+    public static Object parseStringToObject(String value, Class<?> type) throws NumberFormatException {
+        if (value == null && type.isPrimitive()) {
+            throw new IllegalArgumentException("primitive type can not be null");
+        }
+        if (value == null) {
+            return null;
+        }
+        if (type == String.class) {
+            return value;
+        }
+        if (type == Integer.class || type == Integer.TYPE) {
+            return Integer.valueOf(value);
+        }
+        if (type == Float.class || type == Float.TYPE) {
+            return Float.valueOf(value);
+        }
+        if (type == Double.class || type == Double.TYPE) {
+            return Double.valueOf(value);
+        }
+        if (type == Boolean.class || type == Boolean.TYPE) {
+            return value.equals("1") || value.equalsIgnoreCase("true");
+        }
+        throw new IllegalArgumentException("Unsupported value type " + type.getName());
+    }
+
 }

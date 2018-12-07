@@ -19,4 +19,6 @@ public interface Context {
 
     ServletContext getServletContext();
 
+    String getRequestUri();
+
 }

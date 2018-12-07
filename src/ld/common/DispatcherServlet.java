@@ -4,6 +4,7 @@ import ld.common.context.Context;
 import ld.common.context.ContextImpl;
 import ld.common.request.*;
 import ld.common.request.param.PathVariableParamResolver;
+import ld.common.request.param.RequestParamParamResolver;
 import ld.common.response.HttpStatus;
 import ld.common.response.HttpStatusResultWriter;
 import ld.common.response.ResponseWriter;
@@ -44,7 +45,8 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String method = req.getMethod();
-        String uri = req.getRequestURI();
+        String contextPath = getServletContext().getContextPath();
+        String uri = req.getRequestURI().substring(contextPath.length());
 
         HttpMethod httpMethod;
         try {
@@ -151,6 +153,7 @@ public class DispatcherServlet extends HttpServlet {
         parameterResolvers.add(new ContextParamResolver());
         parameterResolvers.add(new ContextUnwrapParamResolver());
         parameterResolvers.add(new PathVariableParamResolver());
+        parameterResolvers.add(new RequestParamParamResolver());
 
         for (Class<?> c : classes) {
             if (ParameterResolver.class.isAssignableFrom(c) && !c.isInterface()) {
